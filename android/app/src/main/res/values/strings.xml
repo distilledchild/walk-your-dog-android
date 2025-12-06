@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Walk Your Dog</string>
+    <string name="default_web_client_id">320698938442-1eildt6s6rfblpsko62oa6ldvn5h3nke.apps.googleusercontent.com</string>
+
+    <!-- Facebook Configuration -->
+    <string name="facebook_app_id">857405056658888</string>
+    <string name="facebook_client_token">857405056658888</string>
+    <string name="fb_login_protocol_scheme">fb857405056658888</string>
+</resources>
