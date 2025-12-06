@@ -1,0 +1,14 @@
+// API Keys Configuration
+//
+// 1. Copy this file to api_keys.dart
+// 2. Replace the placeholder values with your actual API keys
+// 3. NEVER commit api_keys.dart to Git
+
+class ApiKeys {
+  // Google OAuth 2.0 Server Client ID
+  // Get this from: https://console.cloud.google.com/apis/credentials
+  static const String googleServerClientId = 'YOUR_GOOGLE_SERVER_CLIENT_ID_HERE.apps.googleusercontent.com';
+
+  // Add other API keys here as needed
+  // static const String otherApiKey = 'YOUR_API_KEY_HERE';
+}

@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import '../config/api_keys.dart';
 
 class GoogleAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-    serverClientId: '320698938442-5movhk7i02p4j50h2oboce9v0ivteq3k.apps.googleusercontent.com',
+    serverClientId: ApiKeys.googleServerClientId,
   );
   final FacebookAuth _facebookAuth = FacebookAuth.instance;
 
