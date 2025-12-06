@@ -1,4 +1,4 @@
-package com.example.walk_your_dog_android
+package com.distilledchild.walkyourdog
 
 import io.flutter.embedding.android.FlutterActivity
 
