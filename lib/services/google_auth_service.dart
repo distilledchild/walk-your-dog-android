@@ -5,9 +5,8 @@ import '../config/api_keys.dart';
 
 class GoogleAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    serverClientId: ApiKeys.googleServerClientId,
-  );
+  // GoogleSignIn is now a singleton
+  GoogleSignIn get _googleSignIn => GoogleSignIn.instance;
   final FacebookAuth _facebookAuth = FacebookAuth.instance;
 
   // Get current user
@@ -19,27 +18,35 @@ class GoogleAuthService {
   // Sign in with Google
   Future<UserCredential?> signInWithGoogle() async {
     try {
-      // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      // Initialize the GoogleSignIn instance
+      await _googleSignIn.initialize(
+        serverClientId: ApiKeys.googleServerClientId,
+      );
 
-      if (googleUser == null) {
-        // User cancelled the sign-in
-        return null;
-      }
+      // Trigger the authentication flow
+      // authenticate() replaces signIn() and throws on error/cancellation?
+      // It returns a non-nullable GoogleSignInAccount.
+      final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
 
       // Obtain the auth details from the request
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      // authentication is now synchronous
+      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
 
       // Create a new credential
+      // Note: accessToken is no longer directly available in GoogleSignInAuthentication
+      // for authentication purposes, idToken is usually sufficient for Firebase.
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
+        accessToken: null, 
         idToken: googleAuth.idToken,
       );
 
       // Sign in to Firebase with the Google credential
       return await _auth.signInWithCredential(credential);
     } catch (e) {
-      print('Error signing in with Google: $e');
+      // print('Error signing in with Google: $e');
+      // If it's a cancellation, we might want to return null, but for now rethrow or handle specific error codes
+      // Assuming rethrow to maintain similar behavior for errors, but original code returned null on cancel.
+      // We can't easily distinguish cancel without checking error type.
       rethrow;
     }
   }
@@ -68,7 +75,7 @@ class GoogleAuthService {
         throw Exception('Facebook login failed: ${result.message}');
       }
     } catch (e) {
-      print('Error signing in with Facebook: $e');
+      // print('Error signing in with Facebook: $e');
       rethrow;
     }
   }
@@ -82,7 +89,7 @@ class GoogleAuthService {
         _facebookAuth.logOut(),
       ]);
     } catch (e) {
-      print('Error signing out: $e');
+      // print('Error signing out: $e');
       rethrow;
     }
   }

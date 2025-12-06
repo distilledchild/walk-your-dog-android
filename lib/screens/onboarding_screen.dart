@@ -94,7 +94,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.green.withOpacity(0.3),
+                        color: Colors.green.withValues(alpha: 0.3),
                         blurRadius: 12,
                         offset: const Offset(0, 6),
                       ),
@@ -140,7 +140,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       decoration: BoxDecoration(
         color: _currentPage == index 
             ? const Color(0xFF8D8D8D) // Active dot (Darker Grey)
-            : const Color(0xFFCFCFCF).withOpacity(0.5), // Inactive dot (Lighter Grey)
+            : const Color(0xFFCFCFCF).withValues(alpha: 0.5), // Inactive dot (Lighter Grey)
         borderRadius: BorderRadius.circular(4),
       ),
     );
