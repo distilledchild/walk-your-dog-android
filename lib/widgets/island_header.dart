@@ -1,0 +1,44 @@
+import 'package:flutter/material.dart';
+
+class IslandHeader extends StatelessWidget {
+  final Widget child;
+  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry margin;
+  final double borderRadius;
+  final Color? color;
+  final Border? border;
+
+  const IslandHeader({
+    super.key,
+    required this.child,
+    this.padding = const EdgeInsets.all(24.0),
+    this.margin = const EdgeInsets.fromLTRB(24.0, 60.0, 24.0, 24.0),
+    this.borderRadius = 30.0,
+    this.color,
+    this.border,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    const Color kDarkGreenHeader = Color(0xFF4A6559);
+
+    return Container(
+      width: double.infinity,
+      margin: margin,
+      padding: padding,
+      decoration: BoxDecoration(
+        color: color ?? kDarkGreenHeader.withValues(alpha: 0.7), // Use provided color or default
+        borderRadius: BorderRadius.circular(borderRadius),
+        border: border, // Use provided border
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: child,
+    );
+  }
+}

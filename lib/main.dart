@@ -8,7 +8,8 @@ import 'screens/home_dashboard.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // Google Services JSON이 확인되었으므로 초기화 활성화
+  await Firebase.initializeApp(); 
   runApp(const MyApp());
 }
 

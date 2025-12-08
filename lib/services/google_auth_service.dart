@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import '../config/api_keys.dart';
+// import '../config/api_keys.dart'; // ApiKeys 사용하지 않도록 수정
 
 class GoogleAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  // GoogleSignIn is now a singleton
-  GoogleSignIn get _googleSignIn => GoogleSignIn.instance;
+  // Initialize GoogleSignIn
+  // ApiKeys 사용을 제거하고 직접 빈 생성자 또는 필요한 파라미터만 사용
+  final GoogleSignIn _googleSignIn = GoogleSignIn(); 
+  
   final FacebookAuth _facebookAuth = FacebookAuth.instance;
 
   // Get current user
@@ -18,25 +20,20 @@ class GoogleAuthService {
   // Sign in with Google
   Future<UserCredential?> signInWithGoogle() async {
     try {
-      // Initialize the GoogleSignIn instance
-      await _googleSignIn.initialize(
-        serverClientId: ApiKeys.googleServerClientId,
-      );
-
       // Trigger the authentication flow
-      // authenticate() replaces signIn() and throws on error/cancellation?
-      // It returns a non-nullable GoogleSignInAccount.
-      final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+
+      if (googleUser == null) {
+        // User cancelled the login
+        return null;
+      }
 
       // Obtain the auth details from the request
-      // authentication is now synchronous
-      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
       // Create a new credential
-      // Note: accessToken is no longer directly available in GoogleSignInAuthentication
-      // for authentication purposes, idToken is usually sufficient for Firebase.
       final credential = GoogleAuthProvider.credential(
-        accessToken: null, 
+        accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
@@ -44,9 +41,6 @@ class GoogleAuthService {
       return await _auth.signInWithCredential(credential);
     } catch (e) {
       // print('Error signing in with Google: $e');
-      // If it's a cancellation, we might want to return null, but for now rethrow or handle specific error codes
-      // Assuming rethrow to maintain similar behavior for errors, but original code returned null on cancel.
-      // We can't easily distinguish cancel without checking error type.
       rethrow;
     }
   }

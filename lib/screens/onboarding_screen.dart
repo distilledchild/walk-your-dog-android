@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:walk_your_dog_ios/widgets/gradient_button.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -79,48 +80,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               // Get Started Button
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Container(
-                  height: 56,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFFDD835), // Yellow/Gold
-                        Color(0xFF66BB6A), // Green
-                      ],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.green.withValues(alpha: 0.3),
-                        blurRadius: 12,
-                        offset: const Offset(0, 6),
-                      ),
-                    ],
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(30),
-                      onTap: () {
-                        // Navigate to Welcome Screen
-                        Navigator.of(context).pushReplacementNamed('/welcome');
-                      },
-                      child: const Center(
-                        child: Text(
-                          "Get Started",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                child: GradientButton(
+                  text: "Get Started",
+                  onTap: () {
+                    // Navigate to Welcome Screen
+                    Navigator.of(context).pushReplacementNamed('/welcome');
+                  },
+                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
               const SizedBox(height: 40),
