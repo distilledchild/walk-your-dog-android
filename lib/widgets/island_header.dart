@@ -11,8 +11,8 @@ class IslandHeader extends StatelessWidget {
   const IslandHeader({
     super.key,
     required this.child,
-    this.padding = const EdgeInsets.all(24.0),
-    this.margin = const EdgeInsets.fromLTRB(24.0, 60.0, 24.0, 24.0),
+    this.margin = const EdgeInsets.fromLTRB(17.0, 12.0, 17.0, 17.0),
+    this.padding = const EdgeInsets.all(22.0),
     this.borderRadius = 30.0,
     this.color,
     this.border,
@@ -24,12 +24,14 @@ class IslandHeader extends StatelessWidget {
 
     return Container(
       width: double.infinity,
+      height: 157.0, // Fixed height based on Stats/Community menus
       margin: margin,
       padding: padding,
+      alignment: Alignment.centerLeft, // Ensure content starts from top-left
       decoration: BoxDecoration(
-        color: color ?? kDarkGreenHeader.withValues(alpha: 0.7), // Use provided color or default
+        color: color ?? kDarkGreenHeader.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(borderRadius),
-        border: border, // Use provided border
+        border: border, 
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),

@@ -2,397 +2,142 @@ import 'package:flutter/material.dart';
 import 'package:walk_your_dog_ios/widgets/island_header.dart';
 import 'package:walk_your_dog_ios/widgets/gradient_button.dart';
 
-class CommunityScreen extends StatefulWidget {
+class CommunityScreen extends StatelessWidget {
   const CommunityScreen({super.key});
-
-  @override
-  State<CommunityScreen> createState() => _CommunityScreenState();
-}
-
-class _CommunityScreenState extends State<CommunityScreen> {
-  int _selectedTab = 0; // 0: Ranking, 1: Clubs, 2: Chat
 
   @override
   Widget build(BuildContext context) {
     // Colors
     final Color kPaleYellowBg = const Color(0xFFF9F8D0);
-    final Color kDarkGreenHeader = const Color(0xFF4A6559);
-    final Color kLimeGreen = const Color(0xFFAED581); // Selected tab
-    final Color kGoldYellow = const Color(0xFFFFD54F);
+    final Color kCardCream = const Color(0xFFFEFDE7);
+    final Color kTextDark = const Color(0xFF2D3E2E);
+    final Color kTextMuted = const Color(0xFF556B55);
 
     return Scaffold(
       backgroundColor: kPaleYellowBg,
       body: Column(
         children: [
-          // 1. Header with Sub-menu
-          // 1. Header with Sub-menu
+          // Header
           IslandHeader(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
                   "Community",
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w900,
-                    color: Color(0xFFFFF9C4),
-                    fontFamily: 'Nunito',
+                    color: Color(0xFFFFF9C4), // Light text on dark header
+                    fontFamily: 'Roboto',
                   ),
                 ),
-                const SizedBox(height: 20),
-                // Sub-menu Toggle
                 Container(
-                  height: 45,
-                  padding: const EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(25),
+                    shape: BoxShape.circle,
                   ),
-                  child: Row(
-                    children: [
-                      _buildTabItem("Ranking", 0, Icons.emoji_events_outlined, kLimeGreen),
-                      _buildTabItem("Clubs", 1, Icons.people_outline, kLimeGreen),
-                      _buildTabItem("Chat", 2, Icons.chat_bubble_outline, kLimeGreen),
-                    ],
-                  ),
+                  child: const Icon(Icons.search, color: Colors.white),
                 ),
               ],
             ),
           ),
 
-          // 2. Body Content
+          // Content
           Expanded(
-            child: _selectedTab == 0
-                ? _buildRankingView()
-                : _selectedTab == 1
-                    ? _buildClubsView()
-                    : _buildChatView(),
-          ),
-        ],
-      ),
-    );
-  }
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Leaderboard Preview
+                  _buildSectionHeader("Leaderboard", "See All"),
+                  const SizedBox(height: 12),
+                  _buildLeaderboardCard(kCardCream, kTextDark, kTextMuted),
+                  
+                  const SizedBox(height: 24),
+                  
+                  // Clubs / Groups
+                  _buildSectionHeader("Local Clubs", "Explore"),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: 160,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      clipBehavior: Clip.none,
+                      children: [
+                        _buildClubCard("Gangnam Walkers", "12 Members", kCardCream, kTextDark),
+                        const SizedBox(width: 16),
+                        _buildClubCard("Maltese Lovers", "8 Members", kCardCream, kTextDark),
+                        const SizedBox(width: 16),
+                        _buildClubCard("Early Birds", "25 Members", kCardCream, kTextDark),
+                      ],
+                    ),
+                  ),
 
-  Widget _buildTabItem(String text, int index, IconData icon, Color activeColor) {
-    final bool isSelected = _selectedTab == index;
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            _selectedTab = index;
-          });
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: isSelected ? activeColor.withValues(alpha: 0.9) : Colors.transparent,
-            borderRadius: BorderRadius.circular(25),
-          ),
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (isSelected) ...[
-                Icon(icon, size: 18, color: const Color(0xFF2D3E2E)),
-                const SizedBox(width: 6),
-              ],
-              Text(
-                text,
-                style: TextStyle(
-                  color: isSelected ? const Color(0xFF2D3E2E) : Colors.white.withValues(alpha: 0.7),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+                  const SizedBox(height: 24),
 
-  Widget _buildRankingView() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(24, 10, 24, 24),
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
-          // Podium Row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              // 2nd Place (Mike)
-              _buildPodiumItem(
-                name: "Mike",
-                score: "42.8km",
-                rank: 2,
-                color: const Color(0xFFC5E1A5), // Light Greenish Silver
-                height: 140,
-                avatarAsset: "assets/images/onboard2.png",
-                icon: Icons.emoji_events_outlined, // Silver medal placeholder
+                  // Recent Activity Feed
+                  const Text(
+                    "Recent Activity",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2D3E2E),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  _buildActivityCard("Sarah & Max", "Just walked 3km!", kCardCream, kTextDark, kTextMuted),
+                  const SizedBox(height: 12),
+                  _buildActivityCard("John & Bella", "Earned 'Marathoner' badge", kCardCream, kTextDark, kTextMuted),
+                ],
               ),
-              // 1st Place (Sarah)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: _buildPodiumItem(
-                  name: "Sarah",
-                  score: "45.2km",
-                  rank: 1,
-                  color: const Color(0xFFFDD835), // Gold
-                  height: 170,
-                  avatarAsset: "assets/images/onboard1.png",
-                  icon: Icons.emoji_events, // Crown/Trophy placeholder
-                ),
-              ),
-              // 3rd Place (Emma)
-              _buildPodiumItem(
-                name: "Emma",
-                score: "38.5km",
-                rank: 3,
-                color: const Color(0xFFD7CCC8), // Bronze-ish
-                height: 120,
-                avatarAsset: "assets/images/onboard3.png",
-                icon: Icons.emoji_events_outlined, // Bronze placeholder
-              ),
-            ],
+            ),
           ),
           
-          const SizedBox(height: 40),
-
-          // List Items
-          _buildRankListItem(
-            rank: 4,
-            name: "You & Max",
-            score: "35.2 km this week",
-            isMe: true,
-            avatarAsset: "assets/images/onboard1.png",
+          // Create Post / Action Button
+          GradientButton(
+            text: "Create Post",
+            icon: const Icon(Icons.add, color: Color(0xFF2D3E2E)),
+            onTap: () {
+              // Create post action
+            },
+            // padding removed, using default from widget
           ),
-          const SizedBox(height: 16),
-          _buildRankListItem(
-            rank: 5,
-            name: "John & Bella",
-            score: "32.1 km this week",
-            isMe: false,
-            avatarAsset: "assets/images/onboard2.png",
-          ),
-          // Additional items can be added here
         ],
       ),
     );
   }
 
-  Widget _buildPodiumItem({
-    required String name,
-    required String score,
-    required int rank,
-    required Color color,
-    required double height,
-    required String avatarAsset,
-    required IconData icon,
-  }) {
-    // Colors for borders/icons based on rank
-    Color accentColor;
-    if (rank == 1) accentColor = const Color(0xFFFFD700);
-    else if (rank == 2) accentColor = const Color(0xFFC0C0C0);
-    else accentColor = const Color(0xFFCD7F32);
-
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
+  Widget _buildSectionHeader(String title, String action) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // Avatar
-        Container(
-          width: rank == 1 ? 80 : 60,
-          height: rank == 1 ? 80 : 60,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: Colors.white, width: 3),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              ),
-            ],
-            image: DecorationImage(
-              image: AssetImage(avatarAsset),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        const SizedBox(height: 8),
         Text(
-          name,
+          title,
           style: const TextStyle(
-            fontSize: 14,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Color(0xFF2D3E2E),
           ),
         ),
-        const SizedBox(height: 8),
-        // Pedestal
-        Container(
-          width: rank == 1 ? 100 : 85,
-          height: height,
-          decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.8), // Semi-transparent for glass effect feel? Or solid
-            
-             gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                color,
-                color.withValues(alpha: 0.9), // Slightly darker bottom
-              ],
-            ),
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
-            ),
-            boxShadow: [
-               BoxShadow(
-                color: buttonShadow(color),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ]
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                rank == 1 ? Icons.workspace_premium : Icons.emoji_events_outlined, // Placeholder for Crown/Medal
-                color: const Color(0xFF2D3E2E).withValues(alpha: 0.6),
-                size: 32,
-              ),
-               const SizedBox(height: 8),
-              Text(
-                score,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF2D3E2E),
-                ),
-              ),
-            ],
+        Text(
+          action,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF556B55),
           ),
         ),
       ],
     );
   }
-  
-  Color buttonShadow(Color color) {
-     if(color == const Color(0xFFFDD835)) return Colors.orange.withValues(alpha: 0.3);
-     return Colors.black.withValues(alpha: 0.1);
-  }
 
-  Widget _buildRankListItem({
-    required int rank,
-    required String name,
-    required String score,
-    required bool isMe,
-    required String avatarAsset,
-  }) {
+  Widget _buildLeaderboardCard(Color bgColor, Color textColor, Color mutedColor) {
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isMe ? const Color(0xFFAED581).withValues(alpha: 0.6) : const Color(0xFFFEFDE7),
-        borderRadius: BorderRadius.circular(20),
-        border: isMe ? Border.all(color: const Color(0xFF8BC34A), width: 1) : null,
-         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 5,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Text(
-            "#$rank",
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF2D3E2E),
-            ),
-          ),
-          const SizedBox(width: 16),
-          CircleAvatar(
-            radius: 20,
-            backgroundImage: AssetImage(avatarAsset),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF2D3E2E),
-                  ),
-                ),
-                Text(
-                  score,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: Color(0xFF556B55),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          if (isMe)
-             const Icon(Icons.pets, color: Color(0xFF2D3E2E), size: 20) // Little paw icon for you
-        ],
-      ),
-    );
-  }
-
-  Widget _buildClubsView() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        children: [
-          _buildClubCard(
-            name: "Gangnam Walkers",
-            members: "124",
-            distance: "2.3 km",
-            imageAsset: "assets/images/onboard1.png",
-          ),
-          const SizedBox(height: 20),
-          _buildClubCard(
-            name: "Morning Dog Squad",
-            members: "87",
-            distance: "1.5 km",
-            imageAsset: "assets/images/onboard2.png",
-          ),
-          const SizedBox(height: 20),
-          _buildClubCard(
-            name: "Han River Paws",
-            members: "156",
-            distance: "3.8 km",
-            imageAsset: "assets/images/onboard3.png",
-          ),
-          const SizedBox(height: 20),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildClubCard({
-    required String name,
-    required String members,
-    required String distance,
-    required String imageAsset,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFFFEFDE7), // kCardCream
+        color: bgColor,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -402,82 +147,57 @@ class _CommunityScreenState extends State<CommunityScreen> {
           ),
         ],
       ),
-      clipBehavior: Clip.antiAlias,
       child: Column(
         children: [
-          // Image Header
-          Stack(
-            children: [
-              Container(
-                height: 140,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(imageAsset),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              // Gradient Overlay
-              Positioned.fill(
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.transparent,
-                        Colors.black.withValues(alpha: 0.7),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              // Text Content
-              Positioned(
-                bottom: 12,
-                left: 16,
-                right: 16,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Nunito',
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      "$members members • $distance away",
-                      style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.9),
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          // Button Section
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: GradientButton(
-              text: "Join Club",
-              onTap: () {
-                // Join action
-              },
-              height: 50,
-              borderRadius: BorderRadius.circular(25),
-              textStyle: const TextStyle(
-                fontSize: 16,
+          _buildRankItem(1, "GoldenRetriever_Fan", "125 km", textColor, true),
+          const Divider(),
+          _buildRankItem(2, "Poodle_Power", "110 km", textColor, false),
+          const Divider(),
+          _buildRankItem(3, "Husky_Run", "98 km", textColor, false),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRankItem(int rank, String name, String score, Color textColor, bool isFirst) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Container(
+            width: 30,
+            alignment: Alignment.center,
+            child: Text(
+              "#$rank",
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF2D3E2E), // Dark text for this button
+                color: isFirst ? const Color(0xFFFFD54F) : textColor, // Gold for #1
+                fontSize: 16,
               ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          CircleAvatar(
+            backgroundColor: Colors.grey[300],
+            radius: 16,
+            child: const Icon(Icons.person, size: 20, color: Colors.white),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              name,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: textColor,
+                fontSize: 15,
+              ),
+            ),
+          ),
+          Text(
+            score,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: textColor,
             ),
           ),
         ],
@@ -485,43 +205,106 @@ class _CommunityScreenState extends State<CommunityScreen> {
     );
   }
 
-
-  Widget _buildChatView() {
-    return Center(
+  Widget _buildClubCard(String name, String members, Color bgColor, Color textColor) {
+    return Container(
+      width: 140,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            padding: const EdgeInsets.all(24),
+            height: 50,
+            width: 50,
             decoration: BoxDecoration(
-              color: const Color(0xFFAED581).withValues(alpha: 0.2), // Light green tint
-              shape: BoxShape.circle,
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(
-              Icons.chat_bubble_outline_rounded,
-              size: 64,
-              color: Color(0xFFAED581), // Lime Green
-            ),
+            child: const Icon(Icons.pets, color: Colors.grey),
           ),
-          const SizedBox(height: 24),
-          const Text(
-            "No messages yet",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF2D3E2E), // Dark Green
-              fontFamily: 'Nunito',
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                name,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: textColor,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                members,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 8),
-          const Text(
-            "Join a club to start chatting!",
-            style: TextStyle(
-              fontSize: 16,
-              color: Color(0xFF556B55),
-              fontWeight: FontWeight.w500,
-            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActivityCard(String user, String action, Color bgColor, Color textColor, Color mutedColor) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 5,
+            offset: const Offset(0, 2),
           ),
+        ],
+      ),
+      child: Row(
+        children: [
+          const CircleAvatar(
+            radius: 20,
+            backgroundColor: Colors.blueAccent,
+            child: Icon(Icons.person, color: Colors.white),
+          ),
+          const SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                user,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: textColor,
+                  fontSize: 15,
+                ),
+              ),
+              Text(
+                action,
+                style: TextStyle(
+                  color: mutedColor,
+                  fontSize: 13,
+                ),
+              ),
+            ],
+          ),
+          const Spacer(),
+          const Icon(Icons.favorite_border, color: Colors.grey, size: 20),
         ],
       ),
     );

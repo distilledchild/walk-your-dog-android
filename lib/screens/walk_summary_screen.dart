@@ -28,7 +28,7 @@ class WalkSummaryScreen extends StatelessWidget {
                       fontSize: 32,
                       fontWeight: FontWeight.w900,
                       color: Color(0xFFFFF9C4),
-                      fontFamily: 'Nunito',
+                      fontFamily: 'Roboto',
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -185,38 +185,38 @@ class WalkSummaryScreen extends StatelessWidget {
                     ],
                   ),
 
-                  const SizedBox(height: 16),
+                  // const SizedBox(height: 16),
 
                   // 5. Feedback Section
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFFF9C4).withValues(alpha: 0.5), // Lighter yellow
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Column(
-                      children: [
-                        const Text(
-                          "How was Max today?",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF2D3E2E),
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            _buildEmojiBtn("😋"),
-                            _buildEmojiBtn("😃"),
-                            _buildEmojiBtn("🥰"),
-                            _buildEmojiBtn("😌"),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                  //   decoration: BoxDecoration(
+                  //     color: const Color(0xFFFFF9C4).withValues(alpha: 0.5), // Lighter yellow
+                  //     borderRadius: BorderRadius.circular(30),
+                  //   ),
+                  //   child: Column(
+                  //     children: [
+                  //       const Text(
+                  //         "How was Max today?",
+                  //         style: TextStyle(
+                  //           fontSize: 16,
+                  //           fontWeight: FontWeight.bold,
+                  //           color: Color(0xFF2D3E2E),
+                  //         ),
+                  //       ),
+                  //       const SizedBox(height: 12),
+                  //       Row(
+                  //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //         children: [
+                  //           _buildEmojiBtn("😋"),
+                  //           _buildEmojiBtn("😃"),
+                  //           _buildEmojiBtn("🥰"),
+                  //           _buildEmojiBtn("😌"),
+                  //         ],
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
 
                   const SizedBox(height: 20),
 
@@ -298,7 +298,7 @@ class WalkSummaryScreen extends StatelessWidget {
                       fontSize: 32,
                       fontWeight: FontWeight.w900,
                       color: Color(0xFF2D3E2E),
-                      fontFamily: 'Nunito',
+                      fontFamily: 'Roboto',
                     ),
                   ),
                   TextSpan(

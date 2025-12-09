@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:walk_your_dog_ios/services/google_auth_service.dart';
 import 'dart:math' as math;
-import 'package:walk_your_dog_ios/screens/walk_tracking_screen.dart'; // Import added
+import 'package:walk_your_dog_ios/screens/walk_tracking_screen.dart';
+import 'package:walk_your_dog_ios/screens/profile_screen.dart';
 import 'package:walk_your_dog_ios/widgets/island_header.dart';
 import 'package:walk_your_dog_ios/widgets/gradient_button.dart';
 
@@ -24,12 +25,12 @@ class HomeView extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          // 1. Custom Header Card
-          // 1. Custom Header Card
+          // 1. IslandHeader: Custom Header Card
           IslandHeader(
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center, // Align items in the middle from the bottom baseline
               children: [
-                // Avatar
+                // Left Column: Avatar
                 Container(
                   width: 70,
                   height: 70,
@@ -47,23 +48,53 @@ class HomeView extends StatelessWidget {
                           ),
                   ),
                 ),
+                
                 const SizedBox(width: 16),
-                // Name and Level
+                
+                // Right Column: Name/Edit & Level/Gauge
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center, // Center vertically in fixed height header
                     children: [
-                      Text(
-                        userName,
-                        style: const TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFFFF9C4), // Pale text
-                          fontFamily: 'Nunito',
-                        ),
-                      ),
-                      const SizedBox(height: 8),
+                      // Row 1: Name and Edit Icon
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              userName,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFFFF9C4), // Pale text
+                                fontFamily: 'Roboto',
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            alignment: Alignment.centerRight, // Align icon to the far right visually
+                            padding: EdgeInsets.fromLTRB(0, 9, 0, 0), // Remove internal padding to match gauge edge
+                            icon: const Icon(Icons.edit, color: Color(0xFFFFF9C4)),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      
+                      const SizedBox(height: 2), // Small gap
+                      
+                      // Row 2: Level Text and Gauge
+                      Container(
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 12),
+                        child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "Level 12",
@@ -71,6 +102,7 @@ class HomeView extends StatelessWidget {
                               fontSize: 14,
                               color: kLimeGreen,
                               fontWeight: FontWeight.w600,
+                              fontFamily: 'Roboto',
                             ),
                           ),
                           const SizedBox(width: 12),
@@ -88,6 +120,7 @@ class HomeView extends StatelessWidget {
                           ),
                         ],
                       ),
+                    ),
                     ],
                   ),
                 ),
@@ -95,7 +128,7 @@ class HomeView extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 30),
+          const SizedBox(height: 12),
 
           // 2. Circular Step Counter
           Stack(
@@ -117,50 +150,54 @@ class HomeView extends StatelessWidget {
                   ),
                 ),
               ),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    "5,420",
-                    style: TextStyle(
-                      fontSize: 56,
-                      fontWeight: FontWeight.w900,
-                      color: Color(0xFF2D3E2E),
-                      fontFamily: 'Nunito',
-                      height: 1.0,
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "5,420",
+                      style: TextStyle(
+                        fontSize: 56,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFF2D3E2E),
+                        fontFamily: 'Roboto',
+                        height: 1.0,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  const Text(
-                    "/ 8,000 steps",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF556B55),
-                      fontWeight: FontWeight.w500,
+                    const SizedBox(height: 10),
+                    const Text(
+                      "/ 8,000 steps",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Color(0xFF556B55),
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    "68%",
-                    style: TextStyle(
-                      fontSize: 28,
-                      color: kLimeGreen.withValues(alpha: 0.9), // Darker lime for text visibility
-                      fontWeight: FontWeight.bold,
-                      shadows: [
-                          Shadow(
-                              offset: Offset(1,1),
-                              blurRadius: 2,
-                              color: Colors.black.withValues(alpha: 0.1),
-                          )
-                      ]
+                    const SizedBox(height: 10),
+                    Text(
+                      "68%",
+                      style: TextStyle(
+                        fontSize: 28,
+                        color: kLimeGreen.withValues(alpha: 0.9), // Darker lime for text visibility
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                            Shadow(
+                                offset: Offset(1,1),
+                                blurRadius: 2,
+                                color: Colors.black.withValues(alpha: 0.1),
+                            )
+                        ]
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
 
-          const SizedBox(height: 40),
+          const SizedBox(height: 27),
 
           // 3. Stats Row (3 items)
           Padding(
@@ -175,96 +212,86 @@ class HomeView extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: 17),
 
           // 4. Achievement Banner
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                      kGoldYellow.withValues(alpha: 0.4),
-                      kLimeGreen.withValues(alpha: 0.4),
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.5), width: 1),
-              ),
-              child: Row(
-                children: [
-                  // Trophy Icon Container
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFA4B42B), // Darker gold/green
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                          BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 4,
-                              offset: Offset(0,2),
-                          )
-                      ],
-                    ),
-                    child: const Icon(Icons.emoji_events, color: Colors.white, size: 24),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "New Badge Unlocked!",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: Color(0xFF2D3E2E),
-                          ),
-                        ),
-                        SizedBox(height: 2),
-                        Text(
-                          "Week Warrior - 7 days streak",
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Color(0xFF556B55),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+          Container(
+            margin: EdgeInsets.fromLTRB(17.0, 12.0, 17.0, 17.0),
+            padding: const EdgeInsets.all(22.0),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                    kGoldYellow.withValues(alpha: 0.4),
+                    kLimeGreen.withValues(alpha: 0.4),
                 ],
               ),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.5), width: 1),
+            ),
+            child: Row(
+              children: [
+                // Trophy Icon Container
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFA4B42B), // Darker gold/green
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                        BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 4,
+                            offset: Offset(0,2),
+                        )
+                    ],
+                  ),
+                  child: const Icon(Icons.emoji_events, color: Colors.white, size: 24),
+                ),
+
+                const SizedBox(width: 18),
+
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "New Badge Unlocked!",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Color(0xFF2D3E2E),
+                        ),
+                      ),
+                      SizedBox(height: 2),
+                      Text(
+                        "Week Warrior - 7 days streak",
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Color(0xFF556B55),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
 
-          const SizedBox(height: 30),
+          // const SizedBox(height: 2),
 
           // 5. Start Walk Button
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: GradientButton(
-              text: "Start Walk",
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const WalkTrackingScreen(),
-                  ),
-                );
-              },
-              height: 60,
-              icon: const Icon(Icons.circle, size: 16, color: Color(0xFF2D3E2E)),
-              textStyle: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF2D3E2E), // Custom dark text color for this button
-              ),
-              borderRadius: BorderRadius.circular(40),
-            ),
+          GradientButton(
+            text: "Start Walk",
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const WalkTrackingScreen(),
+                ),
+              );
+            },
+            // padding removed, using default from widget
           ),
-
           const SizedBox(height: 40),
         ],
       ),

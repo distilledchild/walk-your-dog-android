@@ -22,9 +22,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Walk Your Dog',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF4A6559), // Dark Green Header
+          primary: const Color(0xFF4A6559),
+          onPrimary: const Color(0xFFFFF9C4), // Pale text
+          secondary: const Color(0xFFAED581), // Lime Green
+          onSecondary: const Color(0xFF2D3E2E), // Dark Text
+          tertiary: const Color(0xFFFFD54F), // Gold Yellow
+          onTertiary: const Color(0xFF2D3E2E),
+          surface: const Color(0xFFF9F8D0), // Pale Yellow Bg
+          onSurface: const Color(0xFF2D3E2E),
+        ),
+        scaffoldBackgroundColor: const Color(0xFFF9F8D0),
         useMaterial3: true,
-        fontFamily: 'Nunito', 
+        fontFamily: 'Roboto', 
       ),
       home: const OnboardingScreen(),
       routes: {

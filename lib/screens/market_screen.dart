@@ -31,12 +31,13 @@ class _MarketScreenState extends State<MarketScreen> {
       body: Column(
         children: [
           // 1. Header
-          // 1. Header
           IslandHeader(
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
@@ -45,10 +46,12 @@ class _MarketScreenState extends State<MarketScreen> {
                         fontSize: 28,
                         fontWeight: FontWeight.w900,
                         color: Color(0xFFFFF9C4),
-                        fontFamily: 'Nunito',
+                        fontFamily: 'Roboto',
                       ),
                     ),
-                    const SizedBox(height: 4),
+
+                    const SizedBox(height: 2),
+                    
                     Text(
                       "Find dog items near you",
                       style: TextStyle(

@@ -146,7 +146,7 @@ class _WalkTrackingScreenState extends State<WalkTrackingScreen> {
                           color: Color(0xFFFFF9C4), // Pale yellow text
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'Nunito', // Monospace for numbers if available
+                          fontFamily: 'Roboto', // Monospace for numbers if available
                           fontFeatures: [FontFeature.tabularFigures()],
                         ),
                       ),

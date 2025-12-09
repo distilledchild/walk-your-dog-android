@@ -53,7 +53,7 @@ class WelcomeScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w800,
                                   color: Color(0xFF2D3E2E),
                                   height: 1.2,
-                                  fontFamily: 'Nunito',
+                                  fontFamily: 'Roboto',
                                 ),
                               ),
                               SizedBox(height: 16),
@@ -83,7 +83,6 @@ class WelcomeScreen extends StatelessWidget {
                                 onTap: () {
                                   Navigator.of(context).pushNamed('/signup');
                                 },
-                                borderRadius: BorderRadius.circular(30),
                               ),
                               const SizedBox(height: 16), // Spacing between buttons
                               GradientButton(
@@ -91,7 +90,6 @@ class WelcomeScreen extends StatelessWidget {
                                 onTap: () {
                                   Navigator.of(context).pushNamed('/login');
                                 },
-                                borderRadius: BorderRadius.circular(30),
                               ),
                             ],
                           ),

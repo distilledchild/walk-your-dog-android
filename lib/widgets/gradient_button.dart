@@ -9,13 +9,14 @@ class GradientButton extends StatelessWidget {
   final BorderRadiusGeometry? borderRadius;
   final TextStyle? textStyle;
   final List<Color> colors;
+  final EdgeInsetsGeometry? padding; 
 
   const GradientButton({
     super.key,
     required this.text,
     required this.onTap,
     this.icon,
-    this.height = 56.0,
+    this.height = 60.0,
     this.width,
     this.borderRadius,
     this.textStyle,
@@ -23,11 +24,13 @@ class GradientButton extends StatelessWidget {
       Color(0xFFFDD835), // Yellow
       Color(0xFF7CB342), // Green
     ],
+    // Default padding applied here
+    this.padding = const EdgeInsets.only(left: 20, right: 20, bottom: 24, top: 8),
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    Widget buttonContent = Container(
       height: height,
       width: width ?? double.infinity,
       decoration: BoxDecoration(
@@ -50,28 +53,40 @@ class GradientButton extends StatelessWidget {
         child: InkWell(
           borderRadius: borderRadius as BorderRadius? ?? BorderRadius.circular(40),
           onTap: onTap,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min, // To wrap content if width is null
-            children: [
-              if (icon != null) ...[
-                icon!,
-                const SizedBox(width: 12),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min, // To wrap content if width is null
+              children: [
+                if (icon != null) ...[
+                  icon!,
+                  const SizedBox(width: 12),
+                ],
+                Text(
+                  text,
+                  style: textStyle ??
+                      const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF2D3E2E), // Custom dark text color
+                        letterSpacing: 0.5,
+                      ),
+                ),
               ],
-              Text(
-                text,
-                style: textStyle ??
-                    const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white, // Default white text
-                      letterSpacing: 0.5,
-                    ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
     );
+
+    if (padding != null) {
+      return Padding(
+        padding: padding!,
+        child: buttonContent,
+      );
+    }
+
+    return buttonContent;
   }
 }

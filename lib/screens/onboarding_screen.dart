@@ -86,7 +86,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     // Navigate to Welcome Screen
                     Navigator.of(context).pushReplacementNamed('/welcome');
                   },
-                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
               const SizedBox(height: 40),
@@ -165,7 +164,7 @@ class OnboardingContent extends StatelessWidget {
               fontWeight: FontWeight.w800,
               color: Color(0xFF2D3E2E), // Reverted to dark green/black
               height: 1.2,
-              fontFamily: 'Nunito',
+              fontFamily: 'Roboto',
             ),
           ),
           const SizedBox(height: 16),
